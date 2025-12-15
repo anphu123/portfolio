@@ -112,10 +112,10 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[999] flex items-start sm:items-center justify-center p-4 overflow-y-auto">
+    <div className="fixed inset-0 z-[999] flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm -z-10"
+        className="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm"
         onClick={onClose}
         role="button"
         tabIndex={-1}
@@ -123,14 +123,13 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
       />
 
       {/* Modal */}
-      <div className="relative w-full max-w-3xl my-8">
-        <div
-          ref={modalRef}
-          role="dialog"
-          aria-modal="true"
-          className="w-full rounded-[28px] bg-white dark:bg-[#020617] border border-slate-200 dark:border-slate-800 shadow-2xl"
-          onClick={(e) => e.stopPropagation()}
-        >
+      <div
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-[28px] bg-white dark:bg-[#020617] border border-slate-200 dark:border-slate-800 shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
           {/* Header */}
           <div className="flex items-start justify-between p-6 sm:p-8 border-b border-slate-200 dark:border-slate-800/50">
             <div>
@@ -224,9 +223,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
             )}
           </div>
 
-          {/* Footer gradient fade */}
-          <div className="h-6 bg-gradient-to-t from-white dark:from-[#020617] to-transparent pointer-events-none" />
-        </div>
+        {/* Footer gradient fade */}
+        <div className="h-6 bg-gradient-to-t from-white dark:from-[#020617] to-transparent pointer-events-none" />
       </div>
     </div>
   );
