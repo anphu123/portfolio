@@ -104,90 +104,93 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div className="fixed inset-0 z-50 overflow-y-auto">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm -z-10"
+        className="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm"
         onClick={onClose}
       ></div>
 
-      {/* Modal Content */}
-      <div
-        ref={modalRef}
-        className="relative w-full max-w-3xl my-auto rounded-[28px] bg-white dark:bg-[#020617] border border-slate-200 dark:border-slate-800 shadow-2xl max-h-[90vh] overflow-y-auto"
-      >
+      {/* Centering wrapper */}
+      <div className="min-h-screen flex items-center justify-center p-4">
+        {/* Modal Content */}
+        <div
+          ref={modalRef}
+          className="relative w-full max-w-3xl rounded-[28px] bg-white dark:bg-[#020617] border border-slate-200 dark:border-slate-800 shadow-2xl max-h-[90vh] overflow-y-auto z-10"
+        >
 
-        {/* Header */}
-        <div className="flex items-start justify-between p-6 sm:p-8 border-b border-slate-200 dark:border-slate-800/50">
-          <div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2">{project.name}</h2>
-            <div className="flex flex-wrap items-center gap-3 text-sm">
-              {project.company && (
-                <span className="font-semibold text-accent">{project.company}</span>
-              )}
-              {project.company && <span className="text-slate-400 dark:text-slate-600">•</span>}
-              <span className="text-slate-500 dark:text-slate-400 font-mono">{project.period}</span>
-            </div>
-          </div>
-          <button
-            onClick={onClose}
-            className="p-2 rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 dark:hover:text-white transition-colors"
-          >
-            <XIcon className="w-5 h-5" />
-          </button>
-        </div>
-
-        <div className="p-6 sm:p-8 space-y-8">
-          {/* Tech Stack */}
-          <div>
-            <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">{t.ui.projects.techStack}</h3>
-            <div className="flex flex-wrap gap-2">
-              {techs.map((tech, i) => (
-                <span
-                  key={i}
-                  className="px-3 py-1.5 text-xs font-medium rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Features */}
-          <div>
-            <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">{t.ui.projects.allFeatures}</h3>
-            <div className="grid sm:grid-cols-2 gap-x-6 gap-y-3">
-              {features.map((feature, idx) => (
-                <div key={idx} className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-300">
-                  <span className="mt-1.5 min-w-[6px] w-[6px] h-[6px] rounded-full bg-accent"></span>
-                  <span className="leading-relaxed">{feature}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Responsibilities */}
-          {responsibilities.length > 0 && (
+          {/* Header */}
+          <div className="flex items-start justify-between p-6 sm:p-8 border-b border-slate-200 dark:border-slate-800/50">
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">{t.ui.projects.responsibilities}</h3>
-              <div className="bg-slate-50 dark:bg-slate-900/30 rounded-2xl p-5 border border-slate-200 dark:border-slate-800/50">
-                <ul className="space-y-3">
-                  {responsibilities.map((resp, idx) => (
-                    <li key={idx} className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-400">
-                      <span className="mt-1.5 text-accent">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                      </span>
-                      <span className="leading-relaxed">{resp}</span>
-                    </li>
-                  ))}
-                </ul>
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2">{project.name}</h2>
+              <div className="flex flex-wrap items-center gap-3 text-sm">
+                {project.company && (
+                  <span className="font-semibold text-accent">{project.company}</span>
+                )}
+                {project.company && <span className="text-slate-400 dark:text-slate-600">•</span>}
+                <span className="text-slate-500 dark:text-slate-400 font-mono">{project.period}</span>
               </div>
             </div>
-          )}
-        </div>
+            <button
+              onClick={onClose}
+              className="p-2 rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 dark:hover:text-white transition-colors"
+            >
+              <XIcon className="w-5 h-5" />
+            </button>
+          </div>
 
-        {/* Footer gradient fade */}
-        <div className="h-6 bg-gradient-to-t from-white dark:from-[#020617] to-transparent pointer-events-none"></div>
+          <div className="p-6 sm:p-8 space-y-8">
+            {/* Tech Stack */}
+            <div>
+              <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">{t.ui.projects.techStack}</h3>
+              <div className="flex flex-wrap gap-2">
+                {techs.map((tech, i) => (
+                  <span
+                    key={i}
+                    className="px-3 py-1.5 text-xs font-medium rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Features */}
+            <div>
+              <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">{t.ui.projects.allFeatures}</h3>
+              <div className="grid sm:grid-cols-2 gap-x-6 gap-y-3">
+                {features.map((feature, idx) => (
+                  <div key={idx} className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-300">
+                    <span className="mt-1.5 min-w-[6px] w-[6px] h-[6px] rounded-full bg-accent"></span>
+                    <span className="leading-relaxed">{feature}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Responsibilities */}
+            {responsibilities.length > 0 && (
+              <div>
+                <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">{t.ui.projects.responsibilities}</h3>
+                <div className="bg-slate-50 dark:bg-slate-900/30 rounded-2xl p-5 border border-slate-200 dark:border-slate-800/50">
+                  <ul className="space-y-3">
+                    {responsibilities.map((resp, idx) => (
+                      <li key={idx} className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-400">
+                        <span className="mt-1.5 text-accent">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </span>
+                        <span className="leading-relaxed">{resp}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Footer gradient fade */}
+          <div className="h-6 bg-gradient-to-t from-white dark:from-[#020617] to-transparent pointer-events-none"></div>
+        </div>
       </div>
     </div>
   );
