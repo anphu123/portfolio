@@ -114,7 +114,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
       ></div>
 
       {/* Centering wrapper */}
-      <div className="flex min-h-full items-start sm:items-center justify-center p-4 pt-[max(1rem,env(safe-area-inset-top))] text-center">
+      <div className="flex min-h-full items-start sm:items-center justify-center p-4 pt-[max(1rem,env(safe-area-inset-top))]">
         {/* Modal Content */}
         <div
           ref={modalRef}
