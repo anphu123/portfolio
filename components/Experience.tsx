@@ -1,11 +1,13 @@
 import React from 'react';
 import { useTranslation } from '../i18n/index';
+import { useInView } from '../hooks/useInView';
 
 export const Experience: React.FC = () => {
   const { t } = useTranslation();
+  const [ref, isInView] = useInView<HTMLElement>({ threshold: 0.1 });
 
   return (
-    <section>
+    <section ref={ref}>
       <div className="flex items-baseline justify-between mb-6">
         <h2 className="text-lg font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">{t.ui.sections.experience}</h2>
         <span className="text-xs text-slate-500 dark:text-slate-600 font-mono">2024 — Present</span>
@@ -15,7 +17,8 @@ export const Experience: React.FC = () => {
         {t.data.experience.map((job, index) => (
           <div
             key={index}
-            className="group relative p-6 sm:p-8 rounded-[24px] bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800/80 hover:border-slate-300 dark:hover:bg-slate-900/80 dark:hover:border-slate-700 transition-all duration-300 shadow-sm dark:shadow-none"
+            className={`group relative p-6 sm:p-8 rounded-[24px] bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800/80 hover:border-slate-300 dark:hover:bg-slate-900/80 dark:hover:border-slate-700 transition-all duration-300 shadow-sm dark:shadow-none hover-lift scroll-reveal ${isInView ? 'visible' : ''}`}
+            style={{ transitionDelay: `${index * 0.15}s` }}
           >
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
               <div>

@@ -1,11 +1,13 @@
 import React from 'react';
 import { useTranslation } from '../i18n/index';
+import { useInView } from '../hooks/useInView';
 
 export const Skills: React.FC = () => {
   const { t } = useTranslation();
+  const [ref, isInView] = useInView<HTMLElement>({ threshold: 0.1 });
 
   return (
-    <section>
+    <section ref={ref}>
       <div className="flex items-baseline justify-between mb-6">
         <h2 className="text-lg font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">{t.ui.sections.skills}</h2>
       </div>
@@ -14,7 +16,8 @@ export const Skills: React.FC = () => {
         {t.data.skills.map((skillGroup, index) => (
           <div
             key={index}
-            className="p-5 rounded-[20px] bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition-colors duration-300 shadow-sm dark:shadow-none"
+            className={`p-5 rounded-[20px] bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition-all duration-300 shadow-sm dark:shadow-none hover-lift scroll-reveal ${isInView ? 'visible' : ''}`}
+            style={{ transitionDelay: `${index * 0.1}s` }}
           >
             <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-3 flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-accent"></span>

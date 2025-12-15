@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation, Translations } from '../i18n/index';
 import { XIcon } from './Icon';
+import { useInView } from '../hooks/useInView';
 
 type ProjectItem = Translations['data']['projects'][number];
 
@@ -10,11 +11,12 @@ interface ProjectCardProps {
   t: Translations;
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick, t }) => {
+const ProjectCard: React.FC<ProjectCardProps & { index: number; isInView: boolean }> = ({ project, onClick, t, index, isInView }) => {
   return (
     <div
       onClick={() => onClick(project)}
-      className="flex flex-col h-full p-6 rounded-[24px] bg-white dark:bg-gradient-to-br dark:from-slate-900/80 dark:to-slate-950 border border-slate-200 dark:border-slate-800/80 hover:border-accent/50 hover:shadow-2xl hover:shadow-green-500/10 hover:-translate-y-2 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all duration-300 cursor-pointer group shadow-sm dark:shadow-none"
+      className={`flex flex-col h-full p-6 rounded-[24px] bg-white dark:bg-gradient-to-br dark:from-slate-900/80 dark:to-slate-950 border border-slate-200 dark:border-slate-800/80 hover:border-accent/50 hover:shadow-2xl hover:shadow-green-500/10 hover:-translate-y-2 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all duration-300 cursor-pointer group shadow-sm dark:shadow-none scroll-reveal ${isInView ? 'visible' : ''}`}
+      style={{ transitionDelay: `${index * 0.1}s` }}
     >
       <div className="mb-6">
         <div className="flex justify-between items-start gap-4 mb-2">
@@ -169,9 +171,10 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
 export const Projects: React.FC = () => {
   const { t } = useTranslation();
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
+  const [ref, isInView] = useInView<HTMLElement>({ threshold: 0.1 });
 
   return (
-    <section>
+    <section ref={ref}>
       <div className="flex items-baseline justify-between mb-6">
         <h2 className="text-lg font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">{t.ui.sections.projects}</h2>
       </div>
@@ -183,6 +186,8 @@ export const Projects: React.FC = () => {
             project={project}
             onClick={setSelectedProject}
             t={t}
+            index={index}
+            isInView={isInView}
           />
         ))}
       </div>
