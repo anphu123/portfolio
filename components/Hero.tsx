@@ -31,7 +31,12 @@ export const Hero: React.FC = () => {
             </div>
 
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 tracking-tight">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-600 via-green-500 to-lime-600 dark:from-green-400 dark:via-green-500 dark:to-lime-400">
+              <span style={{
+                background: 'linear-gradient(to right, #16a34a, #22c55e, #84cc16)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}>
                 {name}
               </span>
             </h1>
