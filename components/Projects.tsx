@@ -104,7 +104,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto">
+
+    <div className="fixed inset-0 z-[999] overflow-y-auto">
       {/* Backdrop */}
       <div
         className="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm"
@@ -112,7 +113,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
       ></div>
 
       {/* Centering wrapper */}
-      <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="flex min-h-full items-center justify-center p-4 text-center">
         {/* Modal Content */}
         <div
           ref={modalRef}
