@@ -68,38 +68,29 @@ export const VisitorCounter: React.FC = () => {
         return String.fromCodePoint(...codePoints);
     };
 
-    if (loading) {
-        return (
-            <div className="flex justify-center items-center mt-6 text-xs text-slate-400">
-                <span className="animate-pulse">Loading visitor data...</span>
-            </div>
-        );
-    }
+    // Fallback data for display if API fails (or while loading)
+    const displayCount = data?.count ?? 0;
+    // Attempt to get country/flag, otherwise hide that part
+    const hasLocation = !!data?.country;
 
-    // If we have at least a count, show it. If not, show unavailable.
-    if (!data) {
-        return (
-            <div className="flex justify-center items-center mt-6 text-[10px] text-slate-400 font-mono">
-                (Counter Unavailable)
-            </div>
-        );
-    }
+    // Don't show loading state, just render what we have (or 0) to seem faster/seamless
+    // or simple skeleton
 
     return (
-        <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 mt-6 text-[10px] sm:text-xs font-mono text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-900/50 py-2 px-4 rounded-full border border-slate-200 dark:border-slate-800/50 hover:bg-slate-200 dark:hover:bg-slate-900 transition-colors cursor-help" title="Powered by CounterAPI.dev">
+        <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 mt-6 text-[10px] sm:text-xs font-mono text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-900/50 py-2 px-4 rounded-full border border-slate-200 dark:border-slate-800/50 hover:bg-slate-200 dark:hover:bg-slate-900 transition-colors cursor-help" title="Visitor Count">
             <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                <span>Total Visits: <span className="font-bold text-slate-600 dark:text-slate-300">{data.count.toLocaleString()}</span></span>
+                <span className={`w-2 h-2 rounded-full ${data ? 'bg-green-500' : 'bg-gray-400'} animate-pulse`}></span>
+                <span>Total Visits: <span className="font-bold text-slate-600 dark:text-slate-300">{displayCount > 0 ? displayCount.toLocaleString() : '...'}</span></span>
             </div>
 
-            {data.country && (
+            {hasLocation && (
                 <>
                     <span className="text-slate-300 dark:text-slate-700">|</span>
                     <div className="flex items-center gap-1.5">
                         <span>From:</span>
                         <span className="font-medium text-slate-600 dark:text-slate-300 flex items-center gap-1">
-                            <span>{getFlagEmoji(data.flag || '')}</span>
-                            <span>{data.country}</span>
+                            <span>{getFlagEmoji(data!.flag || '')}</span>
+                            <span>{data!.country}</span>
                         </span>
                     </div>
                 </>
