@@ -27,7 +27,7 @@ const ProjectCard: React.FC<ProjectCardProps & { index: number; isInView: boolea
       role="button"
       tabIndex={0}
       className={`flex flex-col h-full p-6 rounded-[24px] bg-white dark:bg-gradient-to-br dark:from-slate-900/80 dark:to-slate-950 border border-slate-200 dark:border-slate-800/80 hover:border-accent/50 hover:shadow-2xl hover:shadow-green-500/10 hover:-translate-y-2 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all duration-300 cursor-pointer group shadow-sm dark:shadow-none scroll-reveal ${isInView ? 'visible' : ''}`}
-      style={{ transitionDelay: `${index * 0.1}s`, pointerEvents: 'auto' }}
+      style={{ transitionDelay: `${index * 0.1}s` }}
     >
       <div className="mb-6">
         <div className="flex justify-between items-start gap-4 mb-2">
@@ -104,17 +104,17 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-sm"
+        className="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm -z-10"
         onClick={onClose}
       ></div>
 
       {/* Modal Content */}
       <div
         ref={modalRef}
-        className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-[28px] bg-white dark:bg-[#020617] border border-slate-200 dark:border-slate-800 shadow-2xl z-10"
+        className="relative w-full max-w-3xl my-auto rounded-[28px] bg-white dark:bg-[#020617] border border-slate-200 dark:border-slate-800 shadow-2xl max-h-[90vh] overflow-y-auto"
       >
 
         {/* Header */}
