@@ -81,7 +81,7 @@ const AppContent: React.FC = () => {
           </div>
         </nav>
 
-        <main className="animate-fade-in-up space-y-2">
+        <main className="animate-fade-in-up space-y-8">
           <Hero />
           <Skills />
           <Experience />

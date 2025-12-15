@@ -6,7 +6,7 @@ export const Education: React.FC = () => {
   const { education } = t.data;
 
   return (
-    <section className="mb-12">
+    <section>
       <div className="flex items-baseline justify-between mb-6">
         <h2 className="text-lg font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">{t.ui.sections.education}</h2>
       </div>

@@ -12,7 +12,7 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-6 mb-12">
+    <section className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-6">
       <div className="relative p-6 sm:p-8 rounded-[26px] bg-white dark:bg-card-gradient shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-200 dark:border-border/50 overflow-hidden group transition-colors duration-300">
         <div className="absolute top-0 right-0 p-8 opacity-5 dark:opacity-10 group-hover:opacity-10 dark:group-hover:opacity-20 transition-opacity duration-700 pointer-events-none">
           <svg width="200" height="200" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="0.5">

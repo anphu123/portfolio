@@ -5,7 +5,7 @@ export const Experience: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <section className="mb-12">
+    <section>
       <div className="flex items-baseline justify-between mb-6">
         <h2 className="text-lg font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">{t.ui.sections.experience}</h2>
         <span className="text-xs text-slate-500 dark:text-slate-600 font-mono">2024 — Present</span>
