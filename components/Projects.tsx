@@ -82,18 +82,18 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-16 pb-8 overflow-y-auto">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-sm"
+        className="fixed inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-sm"
         onClick={onClose}
       ></div>
 
       {/* Modal Content */}
-      <div className="relative w-full max-w-3xl max-h-[85vh] overflow-y-auto rounded-[28px] bg-white dark:bg-[#020617] border border-slate-200 dark:border-slate-800 shadow-2xl z-10">
+      <div className="relative w-full max-w-3xl rounded-[28px] bg-white dark:bg-[#020617] border border-slate-200 dark:border-slate-800 shadow-2xl z-10 my-auto">
 
         {/* Header */}
-        <div className="sticky top-0 z-10 flex items-start justify-between p-6 sm:p-8 bg-white/95 dark:bg-[#020617]/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800/50">
+        <div className="flex items-start justify-between p-6 sm:p-8 border-b border-slate-200 dark:border-slate-800/50">
           <div>
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2">{project.name}</h2>
             <div className="flex flex-wrap items-center gap-3 text-sm">
