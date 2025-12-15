@@ -16,6 +16,10 @@ const ProjectCard: React.FC<ProjectCardProps & { index: number; isInView: boolea
     onClick(project);
   };
 
+  // Normalize data to prevent crashes
+  const techs = (project.techStack ?? '').split(', ').filter(Boolean);
+  const features = project.features ?? [];
+
   return (
     <div
       onClick={handleClick}
@@ -45,7 +49,7 @@ const ProjectCard: React.FC<ProjectCardProps & { index: number; isInView: boolea
       <div className="mb-6">
         <div className="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-3">{t.ui.projects.techStack}</div>
         <div className="flex flex-wrap gap-1.5">
-          {project.techStack.split(', ').map((tech, i) => (
+          {techs.map((tech, i) => (
             <span
               key={i}
               className="px-2.5 py-1 text-[11px] rounded-md bg-slate-100 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700/50 group-hover:border-slate-300 dark:group-hover:border-slate-600 dark:group-hover:bg-slate-800 transition-colors"
@@ -59,7 +63,7 @@ const ProjectCard: React.FC<ProjectCardProps & { index: number; isInView: boolea
       <div className="flex-1">
         <div className="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-3">{t.ui.projects.keyFeatures}</div>
         <ul className="space-y-2 mb-6">
-          {project.features.slice(0, 3).map((feature, idx) => (
+          {features.slice(0, 3).map((feature, idx) => (
             <li key={idx} className="flex items-start gap-2.5 text-xs text-slate-600 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-300 transition-colors">
               <span className="mt-1 min-w-[4px] w-[4px] h-[4px] rounded-full bg-slate-400 dark:bg-slate-600 group-hover:bg-accent transition-colors"></span>
               {feature}
@@ -82,6 +86,11 @@ interface ProjectModalProps {
 
 const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
   const modalRef = React.useRef<HTMLDivElement>(null);
+
+  // Normalize data to prevent crashes
+  const techs = (project.techStack ?? '').split(', ').filter(Boolean);
+  const features = project.features ?? [];
+  const responsibilities = project.responsibilities ?? [];
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -133,7 +142,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
           <div>
             <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">{t.ui.projects.techStack}</h3>
             <div className="flex flex-wrap gap-2">
-              {project.techStack.split(', ').map((tech, i) => (
+              {techs.map((tech, i) => (
                 <span
                   key={i}
                   className="px-3 py-1.5 text-xs font-medium rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300"
@@ -148,7 +157,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
           <div>
             <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">{t.ui.projects.allFeatures}</h3>
             <div className="grid sm:grid-cols-2 gap-x-6 gap-y-3">
-              {project.features.map((feature, idx) => (
+              {features.map((feature, idx) => (
                 <div key={idx} className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-300">
                   <span className="mt-1.5 min-w-[6px] w-[6px] h-[6px] rounded-full bg-accent"></span>
                   <span className="leading-relaxed">{feature}</span>
@@ -158,12 +167,12 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
           </div>
 
           {/* Responsibilities */}
-          {project.responsibilities && project.responsibilities.length > 0 && (
+          {responsibilities.length > 0 && (
             <div>
               <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">{t.ui.projects.responsibilities}</h3>
               <div className="bg-slate-50 dark:bg-slate-900/30 rounded-2xl p-5 border border-slate-200 dark:border-slate-800/50">
                 <ul className="space-y-3">
-                  {project.responsibilities.map((resp, idx) => (
+                  {responsibilities.map((resp, idx) => (
                     <li key={idx} className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-400">
                       <span className="mt-1.5 text-accent">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
