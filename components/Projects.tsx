@@ -81,8 +81,14 @@ interface ProjectModalProps {
 }
 
 const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
+  const modalRef = React.useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     document.body.style.overflow = 'hidden';
+    // Scroll modal to top when opened
+    if (modalRef.current) {
+      modalRef.current.scrollTop = 0;
+    }
     return () => {
       document.body.style.overflow = 'unset';
     };
@@ -97,7 +103,10 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
       ></div>
 
       {/* Modal Content */}
-      <div className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-[28px] bg-white dark:bg-[#020617] border border-slate-200 dark:border-slate-800 shadow-2xl z-10">
+      <div
+        ref={modalRef}
+        className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-[28px] bg-white dark:bg-[#020617] border border-slate-200 dark:border-slate-800 shadow-2xl z-10"
+      >
 
         {/* Header */}
         <div className="flex items-start justify-between p-6 sm:p-8 border-b border-slate-200 dark:border-slate-800/50">
