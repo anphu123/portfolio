@@ -93,46 +93,56 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
   const responsibilities = project.responsibilities ?? [];
 
   useEffect(() => {
+    // lock body scroll
+    const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    // Scroll modal to top when opened
-    if (modalRef.current) {
-      modalRef.current.scrollTop = 0;
-    }
+
+    // ensure modal starts at top
+    if (modalRef.current) modalRef.current.scrollTop = 0;
+
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = prevOverflow || 'unset';
     };
   }, []);
 
   return (
-
-
     <div className="fixed inset-0 z-[999] overflow-hidden">
       {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm"
+      <button
+        type="button"
+        aria-label="Close modal"
+        className="absolute inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm"
         onClick={onClose}
-      ></div>
+      />
 
-      {/* Centering wrapper */}
-      <div className="flex min-h-full items-start sm:items-center justify-center p-4 pt-[max(1rem,env(safe-area-inset-top))]">
-        {/* Modal Content */}
+      {/* Positioning wrapper: top on mobile, centered on >= sm */}
+      <div className="relative flex min-h-full items-start sm:items-center justify-center p-4 pt-[max(1rem,env(safe-area-inset-top))]">
+        {/* Modal */}
         <div
           ref={modalRef}
-          className="relative w-full max-w-3xl rounded-[28px] bg-white dark:bg-[#020617] border border-slate-200 dark:border-slate-800 shadow-2xl max-h-[calc(100vh-2rem)] overflow-y-auto z-10"
+          role="dialog"
+          aria-modal="true"
+          className="relative z-10 w-full max-w-3xl rounded-[28px] bg-white dark:bg-[#020617] border border-slate-200 dark:border-slate-800 shadow-2xl overflow-y-auto max-h-[calc(100vh-2rem)]"
         >
-
           {/* Header */}
           <div className="flex items-start justify-between p-6 sm:p-8 border-b border-slate-200 dark:border-slate-800/50">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2">{project.name}</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2">
+                {project.name}
+              </h2>
               <div className="flex flex-wrap items-center gap-3 text-sm">
                 {project.company && (
                   <span className="font-semibold text-accent">{project.company}</span>
                 )}
-                {project.company && <span className="text-slate-400 dark:text-slate-600">•</span>}
-                <span className="text-slate-500 dark:text-slate-400 font-mono">{project.period}</span>
+                {project.company && (
+                  <span className="text-slate-400 dark:text-slate-600">•</span>
+                )}
+                <span className="text-slate-500 dark:text-slate-400 font-mono">
+                  {project.period}
+                </span>
               </div>
             </div>
+
             <button
               onClick={onClose}
               className="p-2 rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 dark:hover:text-white transition-colors"
@@ -144,7 +154,9 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
           <div className="p-6 sm:p-8 space-y-8">
             {/* Tech Stack */}
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">{t.ui.projects.techStack}</h3>
+              <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">
+                {t.ui.projects.techStack}
+              </h3>
               <div className="flex flex-wrap gap-2">
                 {techs.map((tech, i) => (
                   <span
@@ -159,11 +171,13 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
 
             {/* Features */}
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">{t.ui.projects.allFeatures}</h3>
+              <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">
+                {t.ui.projects.allFeatures}
+              </h3>
               <div className="grid sm:grid-cols-2 gap-x-6 gap-y-3">
                 {features.map((feature, idx) => (
                   <div key={idx} className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-300">
-                    <span className="mt-1.5 min-w-[6px] w-[6px] h-[6px] rounded-full bg-accent"></span>
+                    <span className="mt-1.5 min-w-[6px] w-[6px] h-[6px] rounded-full bg-accent" />
                     <span className="leading-relaxed">{feature}</span>
                   </div>
                 ))}
@@ -173,13 +187,26 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
             {/* Responsibilities */}
             {responsibilities.length > 0 && (
               <div>
-                <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">{t.ui.projects.responsibilities}</h3>
+                <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">
+                  {t.ui.projects.responsibilities}
+                </h3>
                 <div className="bg-slate-50 dark:bg-slate-900/30 rounded-2xl p-5 border border-slate-200 dark:border-slate-800/50">
                   <ul className="space-y-3">
                     {responsibilities.map((resp, idx) => (
                       <li key={idx} className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-400">
                         <span className="mt-1.5 text-accent">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                          <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
                         </span>
                         <span className="leading-relaxed">{resp}</span>
                       </li>
@@ -191,7 +218,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
           </div>
 
           {/* Footer gradient fade */}
-          <div className="h-6 bg-gradient-to-t from-white dark:from-[#020617] to-transparent pointer-events-none"></div>
+          <div className="h-6 bg-gradient-to-t from-white dark:from-[#020617] to-transparent pointer-events-none" />
         </div>
       </div>
     </div>
