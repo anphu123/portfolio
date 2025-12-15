@@ -3,17 +3,18 @@ import React, { useEffect, useState } from 'react';
 interface VisitorData {
     count: number;
     country?: string;
+    city?: string;
     flag?: string;
 }
 
 export const VisitorCounter: React.FC = () => {
     const [data, setData] = useState<VisitorData | null>(null);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
             let countVal = 0;
             let countryName = '';
+            let cityName = '';
             let countryCode = '';
 
             // 1. Fetch Count (CounterAPI)
@@ -24,22 +25,19 @@ export const VisitorCounter: React.FC = () => {
                 const countJson = await countRes.json();
                 if (countJson.count) {
                     countVal = countJson.count;
-                } else {
-                    // Fallback: try just getting the count without incrementing if 'up' fails or if we want to just read
-                    // But usually 'up' is what we want.
-                    // If first time, it might need creation, but counterapi.dev usually auto-creates.
                 }
             } catch (e) {
                 console.warn('Count API failed:', e);
             }
 
-            // 2. Fetch Location (IPAPI) - Independent try/catch
+            // 2. Fetch Location (ipwhois.app) - Better free tier, HTTPS supported
             try {
-                const locRes = await fetch('https://ipapi.co/json/');
+                const locRes = await fetch('https://ipwhois.app/json/');
                 const locJson = await locRes.json();
-                if (locJson.country_name) {
-                    countryName = locJson.country_name;
+                if (locJson.success !== false) { // ipwhois returns success: false on failure
+                    countryName = locJson.country;
                     countryCode = locJson.country_code;
+                    cityName = locJson.city;
                 }
             } catch (e) {
                 console.warn('Location API failed:', e);
@@ -49,10 +47,10 @@ export const VisitorCounter: React.FC = () => {
                 setData({
                     count: countVal,
                     country: countryName,
+                    city: cityName,
                     flag: countryCode
                 });
             }
-            setLoading(false);
         };
 
         fetchData();
@@ -72,9 +70,7 @@ export const VisitorCounter: React.FC = () => {
     const displayCount = data?.count ?? 0;
     // Attempt to get country/flag, otherwise hide that part
     const hasLocation = !!data?.country;
-
-    // Don't show loading state, just render what we have (or 0) to seem faster/seamless
-    // or simple skeleton
+    const locationString = [data?.city, data?.country].filter(Boolean).join(', ');
 
     return (
         <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 mt-6 text-[10px] sm:text-xs font-mono text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-900/50 py-2 px-4 rounded-full border border-slate-200 dark:border-slate-800/50 hover:bg-slate-200 dark:hover:bg-slate-900 transition-colors cursor-help" title="Visitor Count">
@@ -90,7 +86,7 @@ export const VisitorCounter: React.FC = () => {
                         <span>From:</span>
                         <span className="font-medium text-slate-600 dark:text-slate-300 flex items-center gap-1">
                             <span>{getFlagEmoji(data!.flag || '')}</span>
-                            <span>{data!.country}</span>
+                            <span>{locationString}</span>
                         </span>
                     </div>
                 </>
