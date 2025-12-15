@@ -104,10 +104,10 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
 
-    // Trigger animation
-    requestAnimationFrame(() => {
+    // Trigger animation after a small delay
+    const timer = setTimeout(() => {
       setIsVisible(true);
-    });
+    }, 10);
 
     // Ensure modal starts at top
     if (modalRef.current) {
@@ -116,30 +116,33 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
 
     // Handle ESC key
     const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') {
+        handleClose();
+      }
     };
     document.addEventListener('keydown', handleEsc);
 
     return () => {
+      clearTimeout(timer);
       document.body.style.overflow = prevOverflow || 'unset';
       document.removeEventListener('keydown', handleEsc);
     };
-  }, [onClose]);
+  }, []);
 
   const handleClose = () => {
     setIsVisible(false);
-    setTimeout(onClose, 200); // Match animation duration
+    setTimeout(onClose, 250); // Match animation duration
   };
 
   return (
     <div 
-      className={`fixed inset-0 z-[999] flex items-start sm:items-center justify-center p-0 sm:p-4 transition-opacity duration-200 ${
+      className={`fixed inset-0 z-[9999] flex items-center justify-center transition-all duration-250 ${
         isVisible ? 'opacity-100' : 'opacity-0'
       }`}
     >
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm transition-opacity duration-200 ${
+        className={`fixed inset-0 bg-black/70 dark:bg-black/85 backdrop-blur-md transition-all duration-250 ${
           isVisible ? 'opacity-100' : 'opacity-0'
         }`}
         onClick={handleClose}
@@ -148,121 +151,124 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
         aria-label="Close modal"
       />
 
-      {/* Modal */}
-      <div
-        ref={modalRef}
-        role="dialog"
-        aria-modal="true"
-        className={`relative w-full sm:max-w-3xl h-full sm:h-auto sm:max-h-[90vh] overflow-y-auto sm:rounded-[28px] bg-white dark:bg-[#020617] border-0 sm:border border-slate-200 dark:border-slate-800 sm:shadow-2xl transition-all duration-200 ${
-          isVisible 
-            ? 'translate-y-0 scale-100 opacity-100' 
-            : 'translate-y-8 scale-95 opacity-0'
-        }`}
-        onClick={(e) => e.stopPropagation()}
-        style={{
-          // Smooth scrolling
-          scrollBehavior: 'smooth',
-          // Better scrollbar styling
-          scrollbarWidth: 'thin',
-          scrollbarColor: 'rgb(148 163 184) transparent'
-        }}
-      >
-        {/* Header */}
-        <div className="sticky top-0 z-10 flex items-start justify-between p-6 sm:p-8 border-b border-slate-200 dark:border-slate-800/50 bg-white/95 dark:bg-[#020617]/95 backdrop-blur-sm">
-          <div className="flex-1 pr-4">
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2">
-              {project.name}
-            </h2>
-            <div className="flex flex-wrap items-center gap-3 text-sm">
-              {project.company && (
-                <span className="font-semibold text-accent">{project.company}</span>
-              )}
-              {project.company && (
-                <span className="text-slate-400 dark:text-slate-600">•</span>
-              )}
-              <span className="text-slate-500 dark:text-slate-400 font-mono">
-                {project.period}
-              </span>
-            </div>
-          </div>
-
-          <button
-            onClick={handleClose}
-            className="flex-shrink-0 p-2 rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-white transition-all hover:rotate-90 duration-300"
-            aria-label="Close modal"
-          >
-            <XIcon className="w-5 h-5" />
-          </button>
-        </div>
-
-        <div className="p-6 sm:p-8 space-y-8">
-          {/* Tech Stack */}
-          <div>
-            <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">
-              {t.ui.projects.techStack}
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {techs.map((tech, i) => (
-                <span
-                  key={i}
-                  className="px-3 py-1.5 text-xs font-medium rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-accent/50 hover:bg-accent/5 transition-colors"
-                >
-                  {tech}
+      {/* Modal Container - Centered with proper padding */}
+      <div className="relative z-10 w-full h-full flex items-center justify-center p-4 sm:p-6 md:p-8">
+        <div
+          ref={modalRef}
+          role="dialog"
+          aria-modal="true"
+          className={`relative w-full max-w-4xl max-h-[calc(100vh-2rem)] sm:max-h-[calc(100vh-3rem)] md:max-h-[85vh] overflow-y-auto rounded-2xl sm:rounded-[28px] bg-white dark:bg-[#020617] border border-slate-200 dark:border-slate-800 shadow-2xl transition-all duration-250 ${
+            isVisible 
+              ? 'translate-y-0 scale-100 opacity-100' 
+              : 'translate-y-4 scale-98 opacity-0'
+          }`}
+          onClick={(e) => e.stopPropagation()}
+          style={{
+            scrollBehavior: 'smooth',
+            scrollbarWidth: 'thin',
+            scrollbarColor: 'rgb(148 163 184 / 0.3) transparent'
+          }}
+        >
+          {/* Header - Sticky */}
+          <div className="sticky top-0 z-20 flex items-start justify-between gap-4 p-5 sm:p-6 md:p-8 border-b border-slate-200 dark:border-slate-800/50 bg-white/98 dark:bg-[#020617]/98 backdrop-blur-xl">
+            <div className="flex-1 min-w-0">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2 break-words">
+                {project.name}
+              </h2>
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm">
+                {project.company && (
+                  <>
+                    <span className="font-semibold text-accent">{project.company}</span>
+                    <span className="text-slate-400 dark:text-slate-600">•</span>
+                  </>
+                )}
+                <span className="text-slate-500 dark:text-slate-400 font-mono text-xs sm:text-sm">
+                  {project.period}
                 </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Features */}
-          <div>
-            <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">
-              {t.ui.projects.allFeatures}
-            </h3>
-            <div className="grid sm:grid-cols-2 gap-x-6 gap-y-3">
-              {features.map((feature, idx) => (
-                <div key={idx} className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-300">
-                  <span className="mt-1.5 min-w-[6px] w-[6px] h-[6px] rounded-full bg-accent flex-shrink-0" />
-                  <span className="leading-relaxed">{feature}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Responsibilities */}
-          {responsibilities.length > 0 && (
-            <div>
-              <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">
-                {t.ui.projects.responsibilities}
-              </h3>
-              <div className="bg-slate-50 dark:bg-slate-900/30 rounded-2xl p-5 border border-slate-200 dark:border-slate-800/50">
-                <ul className="space-y-3">
-                  {responsibilities.map((resp, idx) => (
-                    <li key={idx} className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-400">
-                      <span className="mt-1.5 text-accent flex-shrink-0">
-                        <svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="3"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <polyline points="20 6 9 17 4 12" />
-                        </svg>
-                      </span>
-                      <span className="leading-relaxed">{resp}</span>
-                    </li>
-                  ))}
-                </ul>
               </div>
             </div>
-          )}
-        </div>
 
-        {/* Footer gradient fade */}
-        <div className="h-6 bg-gradient-to-t from-white dark:from-[#020617] to-transparent pointer-events-none" />
+            <button
+              onClick={handleClose}
+              className="flex-shrink-0 p-2 rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-white transition-all hover:rotate-90 duration-300 focus:outline-none focus:ring-2 focus:ring-accent/50"
+              aria-label="Close modal"
+            >
+              <XIcon className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Content */}
+          <div className="p-5 sm:p-6 md:p-8 space-y-6 sm:space-y-8">
+            {/* Tech Stack */}
+            <div>
+              <h3 className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-500 mb-3 sm:mb-4">
+                {t.ui.projects.techStack}
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {techs.map((tech, i) => (
+                  <span
+                    key={i}
+                    className="px-2.5 sm:px-3 py-1 sm:py-1.5 text-[11px] sm:text-xs font-medium rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-accent/50 hover:bg-accent/5 transition-colors"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Features */}
+            {features.length > 0 && (
+              <div>
+                <h3 className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-500 mb-3 sm:mb-4">
+                  {t.ui.projects.allFeatures}
+                </h3>
+                <div className="grid gap-3 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-3">
+                  {features.map((feature, idx) => (
+                    <div key={idx} className="flex items-start gap-2.5 sm:gap-3 text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+                      <span className="mt-1.5 min-w-[6px] w-[6px] h-[6px] rounded-full bg-accent flex-shrink-0" />
+                      <span className="leading-relaxed">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Responsibilities */}
+            {responsibilities.length > 0 && (
+              <div>
+                <h3 className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-500 mb-3 sm:mb-4">
+                  {t.ui.projects.responsibilities}
+                </h3>
+                <div className="bg-slate-50 dark:bg-slate-900/30 rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-slate-200 dark:border-slate-800/50">
+                  <ul className="space-y-2.5 sm:space-y-3">
+                    {responsibilities.map((resp, idx) => (
+                      <li key={idx} className="flex items-start gap-2.5 sm:gap-3 text-xs sm:text-sm text-slate-600 dark:text-slate-400">
+                        <span className="mt-1 sm:mt-1.5 text-accent flex-shrink-0">
+                          <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                        </span>
+                        <span className="leading-relaxed">{resp}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Footer gradient fade */}
+          <div className="h-4 sm:h-6 bg-gradient-to-t from-white dark:from-[#020617] to-transparent pointer-events-none" />
+        </div>
       </div>
     </div>
   );
