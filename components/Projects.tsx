@@ -89,7 +89,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-16 pb-8 overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
         className="fixed inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-sm"
@@ -97,7 +97,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
       ></div>
 
       {/* Modal Content */}
-      <div className="relative w-full max-w-3xl rounded-[28px] bg-white dark:bg-[#020617] border border-slate-200 dark:border-slate-800 shadow-2xl z-10 my-auto">
+      <div className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-[28px] bg-white dark:bg-[#020617] border border-slate-200 dark:border-slate-800 shadow-2xl z-10">
 
         {/* Header */}
         <div className="flex items-start justify-between p-6 sm:p-8 border-b border-slate-200 dark:border-slate-800/50">
