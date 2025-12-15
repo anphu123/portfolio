@@ -12,11 +12,18 @@ interface ProjectCardProps {
 }
 
 const ProjectCard: React.FC<ProjectCardProps & { index: number; isInView: boolean }> = ({ project, onClick, t, index, isInView }) => {
+  const handleClick = () => {
+    onClick(project);
+  };
+
   return (
     <div
-      onClick={() => onClick(project)}
+      onClick={handleClick}
+      onKeyDown={(e) => e.key === 'Enter' && handleClick()}
+      role="button"
+      tabIndex={0}
       className={`flex flex-col h-full p-6 rounded-[24px] bg-white dark:bg-gradient-to-br dark:from-slate-900/80 dark:to-slate-950 border border-slate-200 dark:border-slate-800/80 hover:border-accent/50 hover:shadow-2xl hover:shadow-green-500/10 hover:-translate-y-2 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all duration-300 cursor-pointer group shadow-sm dark:shadow-none scroll-reveal ${isInView ? 'visible' : ''}`}
-      style={{ transitionDelay: `${index * 0.1}s` }}
+      style={{ transitionDelay: `${index * 0.1}s`, pointerEvents: 'auto' }}
     >
       <div className="mb-6">
         <div className="flex justify-between items-start gap-4 mb-2">
