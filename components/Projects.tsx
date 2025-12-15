@@ -12,7 +12,8 @@ interface ProjectCardProps {
 }
 
 const ProjectCard: React.FC<ProjectCardProps & { index: number; isInView: boolean }> = ({ project, onClick, t, index, isInView }) => {
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent | React.KeyboardEvent) => {
+    e.stopPropagation();
     onClick(project);
   };
 
@@ -23,7 +24,12 @@ const ProjectCard: React.FC<ProjectCardProps & { index: number; isInView: boolea
   return (
     <div
       onClick={handleClick}
-      onKeyDown={(e) => e.key === 'Enter' && handleClick()}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleClick(e);
+        }
+      }}
       role="button"
       tabIndex={0}
       className={`flex flex-col h-full p-6 rounded-[24px] bg-white dark:bg-gradient-to-br dark:from-slate-900/80 dark:to-slate-950 border border-slate-200 dark:border-slate-800/80 hover:border-accent/50 hover:shadow-2xl hover:shadow-green-500/10 hover:-translate-y-2 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all duration-300 cursor-pointer group shadow-sm dark:shadow-none scroll-reveal ${isInView ? 'visible' : ''}`}
@@ -106,23 +112,24 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[999] overflow-hidden">
+    <div className="fixed inset-0 z-[999] flex items-start sm:items-center justify-center p-4 overflow-y-auto">
       {/* Backdrop */}
-      <button
-        type="button"
-        aria-label="Close modal"
-        className="absolute inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm"
+      <div
+        className="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm -z-10"
         onClick={onClose}
+        role="button"
+        tabIndex={-1}
+        aria-label="Close modal"
       />
 
-      {/* Positioning wrapper: top on mobile, centered on >= sm */}
-      <div className="relative flex min-h-full items-start sm:items-center justify-center p-4 pt-[max(1rem,env(safe-area-inset-top))]">
-        {/* Modal */}
+      {/* Modal */}
+      <div className="relative w-full max-w-3xl my-8">
         <div
           ref={modalRef}
           role="dialog"
           aria-modal="true"
-          className="relative z-10 w-full max-w-3xl rounded-[28px] bg-white dark:bg-[#020617] border border-slate-200 dark:border-slate-800 shadow-2xl overflow-y-auto max-h-[calc(100vh-2rem)]"
+          className="w-full rounded-[28px] bg-white dark:bg-[#020617] border border-slate-200 dark:border-slate-800 shadow-2xl"
+          onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
           <div className="flex items-start justify-between p-6 sm:p-8 border-b border-slate-200 dark:border-slate-800/50">
