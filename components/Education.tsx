@@ -11,7 +11,7 @@ export const Education: React.FC = () => {
         <h2 className="text-lg font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">{t.ui.sections.education}</h2>
       </div>
 
-      <div className="p-6 sm:p-8 rounded-[24px] bg-white dark:bg-slate-900/30 border border-slate-200 dark:border-slate-800/60 flex flex-col md:flex-row gap-8 items-start shadow-sm dark:shadow-none transition-colors duration-300">
+      <div className="group p-6 sm:p-8 rounded-[24px] bg-white dark:bg-slate-900/30 border border-slate-200 dark:border-slate-800/60 hover:border-slate-300 dark:hover:bg-slate-900/80 dark:hover:border-slate-700 flex flex-col md:flex-row gap-8 items-start shadow-sm dark:shadow-none transition-all duration-300">
         <div className="flex-1">
           <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-1">{education.school}</h3>
           <p className="text-accent font-medium mb-4">{education.major}</p>
