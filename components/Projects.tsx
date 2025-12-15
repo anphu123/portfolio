@@ -135,16 +135,14 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
   };
 
   return (
-    <div 
-      className={`fixed inset-0 z-[9999] flex items-center justify-center transition-all duration-250 ${
-        isVisible ? 'opacity-100' : 'opacity-0'
-      }`}
+    <div
+      className={`fixed inset-0 z-[9999] overflow-y-auto transition-all duration-250 ${isVisible ? 'opacity-100' : 'opacity-0'
+        }`}
     >
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 bg-black/70 dark:bg-black/85 backdrop-blur-md transition-all duration-250 ${
-          isVisible ? 'opacity-100' : 'opacity-0'
-        }`}
+        className={`fixed inset-0 bg-black/70 dark:bg-black/85 backdrop-blur-md transition-all duration-250 ${isVisible ? 'opacity-100' : 'opacity-0'
+          }`}
         onClick={handleClose}
         role="button"
         tabIndex={-1}
@@ -152,22 +150,19 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
       />
 
       {/* Modal Container - Centered with proper padding */}
-      <div className="relative z-10 w-full h-full flex items-center justify-center p-4 sm:p-6 md:p-8">
+      <div
+        className="relative z-10 w-full min-h-full flex items-center justify-center p-4 sm:p-6 md:p-8"
+        onClick={handleClose}
+      >
         <div
           ref={modalRef}
           role="dialog"
           aria-modal="true"
-          className={`relative w-full max-w-4xl max-h-[calc(100vh-2rem)] sm:max-h-[calc(100vh-3rem)] md:max-h-[85vh] overflow-y-auto rounded-2xl sm:rounded-[28px] bg-white dark:bg-[#020617] border border-slate-200 dark:border-slate-800 shadow-2xl transition-all duration-250 ${
-            isVisible 
-              ? 'translate-y-0 scale-100 opacity-100' 
+          className={`relative w-full max-w-4xl rounded-2xl sm:rounded-[28px] bg-white dark:bg-[#020617] border border-slate-200 dark:border-slate-800 shadow-2xl transition-all duration-250 ${isVisible
+              ? 'translate-y-0 scale-100 opacity-100'
               : 'translate-y-4 scale-98 opacity-0'
-          }`}
+            }`}
           onClick={(e) => e.stopPropagation()}
-          style={{
-            scrollBehavior: 'smooth',
-            scrollbarWidth: 'thin',
-            scrollbarColor: 'rgb(148 163 184 / 0.3) transparent'
-          }}
         >
           {/* Header - Sticky */}
           <div className="sticky top-0 z-20 flex items-start justify-between gap-4 p-5 sm:p-6 md:p-8 border-b border-slate-200 dark:border-slate-800/50 bg-white/98 dark:bg-[#020617]/98 backdrop-blur-xl">
@@ -267,7 +262,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
           </div>
 
           {/* Footer gradient fade */}
-          <div className="h-4 sm:h-6 bg-gradient-to-t from-white dark:from-[#020617] to-transparent pointer-events-none" />
+
         </div>
       </div>
     </div>

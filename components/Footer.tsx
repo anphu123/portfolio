@@ -3,6 +3,8 @@ import { useTranslation } from '../i18n/index';
 import { CONTACT_DATA } from '../constants';
 import { GithubIcon, LinkedinIcon } from './Icon';
 
+import { VisitorCounter } from './VisitorCounter';
+
 export const Footer: React.FC = () => {
   const { t } = useTranslation();
 
@@ -39,6 +41,8 @@ export const Footer: React.FC = () => {
           </a>
         </div>
       </div>
+
+      <VisitorCounter />
     </footer>
   );
 };
