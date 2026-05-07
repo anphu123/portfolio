@@ -1,22 +1,28 @@
 import React from 'react';
-import { useTranslation, Language } from '../i18n/index';
+import { useTranslation } from '../i18n/index';
 
 export const LanguageSwitcher: React.FC = () => {
-    const { language, setLanguage } = useTranslation();
+  const { language, setLanguage } = useTranslation();
 
-    const toggleLanguage = () => {
-        setLanguage(language === 'en' ? 'vi' : 'en');
-    };
+  const toggleLanguage = () => {
+    setLanguage(language === 'en' ? 'vi' : 'en');
+  };
 
-    return (
-        <button
-            onClick={toggleLanguage}
-            className="flex items-center gap-2 px-3 py-2 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:text-white transition-colors cursor-pointer text-xs font-medium"
-            aria-label="Switch Language"
-            title={language === 'en' ? 'Chuyển sang Tiếng Việt' : 'Switch to English'}
-        >
-            <span className="text-base">{language === 'en' ? '🇺🇸' : '🇻🇳'}</span>
-            <span className="hidden sm:inline">{language === 'en' ? 'EN' : 'VI'}</span>
-        </button>
-    );
+  return (
+    <button
+      onClick={toggleLanguage}
+      className="btn-doodle flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold"
+      style={{
+        background: '#fffdf5',
+        color: '#2d2013',
+        fontFamily: "'Caveat', cursive",
+        fontSize: '0.95rem',
+      }}
+      aria-label="Switch Language"
+      title={language === 'en' ? 'Chuyển sang Tiếng Việt' : 'Switch to English'}
+    >
+      <span style={{ fontSize: '1rem' }}>{language === 'en' ? '🇺🇸' : '🇻🇳'}</span>
+      <span className="hidden sm:inline">{language === 'en' ? 'US' : 'EN'}</span>
+    </button>
+  );
 };

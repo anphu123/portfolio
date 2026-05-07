@@ -3,6 +3,19 @@ import { useTranslation } from '../i18n/index';
 import { CONTACT_DATA } from '../constants';
 import { MailIcon, MapPinIcon, PhoneIcon, DownloadIcon } from './Icon';
 
+// Small doodle decorations for hero section
+const DoodleHeart = () => (
+  <svg width="24" height="22" viewBox="0 0 24 22" fill="none" style={{ display: 'inline-block', verticalAlign: 'middle', animation: 'wiggle 3s ease-in-out infinite' }}>
+    <path d="M12,19 C12,19 2,12 2,6 C2,3 4,1 7,1 C9,1 11,2.5 12,4 C13,2.5 15,1 17,1 C20,1 22,3 22,6 C22,12 12,19 12,19 Z" stroke="#c4446e" strokeWidth="2" fill="none" strokeLinejoin="round"/>
+  </svg>
+);
+
+const DoodleStar = ({ style }: { style?: React.CSSProperties }) => (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style={{ display: 'inline-block', ...style }}>
+    <path d="M10,2 L11.8,7.6 L18,7.6 L13,11.2 L15,17 L10,13.5 L5,17 L7,11.2 L2,7.6 L8.2,7.6 Z" stroke="#f5a623" strokeWidth="1.8" fill="none" strokeLinejoin="round"/>
+  </svg>
+);
+
 export const Hero: React.FC = () => {
   const { t } = useTranslation();
   const { name, role, summary } = t.data;
@@ -13,59 +26,147 @@ export const Hero: React.FC = () => {
 
   return (
     <section className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-6">
-      <div className="relative p-6 sm:p-8 rounded-[26px] bg-white dark:bg-card-gradient shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-200 dark:border-border/50 overflow-hidden group transition-colors duration-300">
-        <div className="absolute top-0 right-0 p-8 opacity-5 dark:opacity-10 group-hover:opacity-10 dark:group-hover:opacity-20 transition-opacity duration-700 pointer-events-none">
-          <svg width="200" height="200" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="0.5">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-          </svg>
-        </div>
+      {/* Main info card — doodle style */}
+      <div
+        className="relative p-6 sm:p-8 overflow-hidden group transition-all duration-300 doodle-card"
+        style={{ borderRadius: '18px 26px 22px 30px / 26px 18px 30px 22px' }}
+      >
+        {/* Washi tape top decoration */}
+        <div style={{
+          position: 'absolute',
+          top: -10,
+          left: '35%',
+          width: 70,
+          height: 20,
+          background: 'repeating-linear-gradient(45deg, rgba(232,93,38,0.35), rgba(232,93,38,0.35) 4px, rgba(245,166,35,0.35) 4px, rgba(245,166,35,0.35) 8px)',
+          borderRadius: 3,
+          transform: 'rotate(-1.5deg)',
+          zIndex: 2,
+        }} />
+
+        {/* Background doodle sketch */}
+        <svg className="absolute top-4 right-4 opacity-5 pointer-events-none" width="160" height="160" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#2d2013" strokeWidth="0.8"/>
+        </svg>
 
         <div className="flex flex-col md:flex-row justify-between items-start gap-6">
           <div className="flex flex-col items-start flex-1">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-700/50 mb-6 backdrop-blur-sm print:hidden transition-colors">
+            {/* Available badge — doodle style */}
+            <div
+              className="inline-flex items-center gap-2 px-3 py-1.5 mb-6 print:hidden"
+              style={{
+                background: '#fef9c3',
+                border: '1.5px solid #c4a882',
+                borderRadius: '6px 10px 8px 12px / 10px 6px 12px 8px',
+                boxShadow: '2px 2px 0 #c4a882',
+                fontFamily: "'Patrick Hand', cursive",
+              }}
+            >
               <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent"></span>
+                <span
+                  className="animate-ping absolute inline-flex h-full w-full rounded-full"
+                  style={{ background: '#3a8c4e', opacity: 0.7 }}
+                />
+                <span
+                  className="relative inline-flex rounded-full h-2.5 w-2.5"
+                  style={{ background: '#3a8c4e' }}
+                />
               </span>
-              <span className="text-xs font-medium text-slate-600 dark:text-slate-400">{t.ui.hero.available}</span>
+              <span style={{ fontSize: '0.78rem', color: '#5a4030', fontWeight: 600 }}>
+                {t.ui.hero.available}
+              </span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 tracking-tight">
-              <span style={{
-                background: 'linear-gradient(to right, #16a34a, #22c55e, #84cc16)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}>
-                {name}
-              </span>
+            {/* Name — big hand-drawn style */}
+            <h1
+              className="mb-3 tracking-tight scribble-underline"
+              style={{
+                fontFamily: "'Permanent Marker', cursive",
+                fontSize: 'clamp(2rem, 5vw, 3.2rem)',
+                color: '#e85d26',
+                lineHeight: 1.1,
+                textShadow: '3px 3px 0 rgba(232,93,38,0.15)',
+                marginBottom: '0.5rem',
+                display: 'inline-block',
+              }}
+            >
+              {name}
+              <DoodleStar style={{ marginLeft: 8, animation: 'float-doodle 3s ease-in-out infinite' }} />
             </h1>
-            <h2 className="text-lg sm:text-xl text-slate-600 dark:text-slate-400 mb-6 font-medium transition-colors">{role}</h2>
+
+            {/* Role tag */}
+            <div
+              className="mb-6 mt-4 inline-block px-3 py-1"
+              style={{
+                fontFamily: "'Caveat', cursive",
+                fontSize: '1.15rem',
+                fontWeight: 600,
+                color: '#4a90d9',
+                background: 'rgba(74,144,217,0.1)',
+                border: '1.5px solid #4a90d9',
+                borderRadius: '4px 10px 6px 12px / 10px 4px 12px 6px',
+                transform: 'rotate(-0.8deg)',
+              }}
+            >
+              ✏️ {role}
+            </div>
           </div>
 
+          {/* Avatar */}
           {CONTACT_DATA.avatarUrl && (
-            <div className="relative shrink-0 order-first md:order-last mb-4 md:mb-0">
+            <div className="relative shrink-0 order-first md:order-last mb-4 md:mb-0 float-doodle-slow">
               <img
                 src={CONTACT_DATA.avatarUrl}
                 alt={name}
-                className="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover border-4 border-white dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none"
+                className="w-24 h-24 sm:w-28 sm:h-28 object-cover"
+                style={{
+                  border: '3px solid #2d2013',
+                  borderRadius: '45% 55% 50% 60% / 55% 45% 60% 50%',
+                  boxShadow: '5px 5px 0 #2d2013',
+                }}
               />
-              <div className="absolute inset-0 rounded-full ring-1 ring-inset ring-black/10 dark:ring-white/10"></div>
+              {/* Doodle ring around avatar */}
+              <svg
+                className="absolute inset-0 w-full h-full pointer-events-none"
+                viewBox="0 0 110 110"
+                style={{ top: -5, left: -5, width: 'calc(100% + 10px)', height: 'calc(100% + 10px)' }}
+              >
+                <ellipse cx="55" cy="55" rx="50" ry="52"
+                  stroke="#f5a623" strokeWidth="2" fill="none" strokeDasharray="8 5" opacity="0.7"
+                  style={{ animation: 'float-doodle 5s ease-in-out infinite reverse' }}
+                />
+              </svg>
             </div>
           )}
         </div>
 
-        <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed mb-8 max-w-xl transition-colors">
+        {/* Summary */}
+        <p
+          className="leading-relaxed mb-8 max-w-xl"
+          style={{
+            fontFamily: "'Patrick Hand', cursive",
+            fontSize: '1rem',
+            color: '#5a4030',
+            lineHeight: 1.7,
+          }}
+        >
           {summary}
+          {' '}<DoodleHeart />
         </p>
 
+        {/* CTA Buttons */}
         <div className="flex flex-wrap gap-3 print:hidden">
           {CONTACT_DATA.resumeUrl ? (
             <a
               href={CONTACT_DATA.resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-accent-gradient text-slate-950 text-sm font-bold uppercase tracking-wide shadow-lg shadow-green-500/20 hover:shadow-green-500/30 hover:-translate-y-0.5 transition-all duration-200"
+              className="btn-doodle inline-flex items-center gap-2 px-5 py-2.5"
+              style={{
+                background: 'linear-gradient(135deg, #e85d26, #f5a623)',
+                color: '#fff',
+                fontSize: '0.95rem',
+              }}
             >
               <DownloadIcon className="w-4 h-4" />
               <span>{t.ui.hero.downloadPdf}</span>
@@ -73,9 +174,13 @@ export const Hero: React.FC = () => {
           ) : (
             <button
               onClick={handlePrint}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-accent-gradient text-slate-950 text-sm font-bold uppercase tracking-wide shadow-lg shadow-green-500/20 hover:shadow-green-500/30 hover:-translate-y-0.5 transition-all duration-200"
+              className="btn-doodle inline-flex items-center gap-2 px-5 py-2.5"
+              style={{
+                background: 'linear-gradient(135deg, #e85d26, #f5a623)',
+                color: '#fff',
+                fontSize: '0.95rem',
+              }}
               aria-label="Save Resume as PDF"
-              title="Save as PDF"
             >
               <DownloadIcon className="w-4 h-4" />
               <span>{t.ui.hero.downloadPdf}</span>
@@ -83,7 +188,12 @@ export const Hero: React.FC = () => {
           )}
           <a
             href={`mailto:${CONTACT_DATA.email}`}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-100 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-800 dark:hover:text-white transition-all duration-200"
+            className="btn-doodle inline-flex items-center gap-2 px-5 py-2.5"
+            style={{
+              background: '#fffdf5',
+              color: '#2d2013',
+              fontSize: '0.95rem',
+            }}
           >
             <MailIcon className="w-4 h-4" />
             <span>{t.ui.hero.contactMe}</span>
@@ -91,44 +201,112 @@ export const Hero: React.FC = () => {
         </div>
       </div>
 
+      {/* Contact card — sticky note style */}
       <div className="flex flex-col gap-4">
-        <div className="p-6 rounded-[20px] bg-white/80 dark:bg-card/80 border border-slate-200 dark:border-border/60 shadow-lg shadow-slate-200/50 dark:shadow-lg dark:shadow-none backdrop-blur-sm h-full flex flex-col justify-center transition-colors duration-300">
-          <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-6">{t.ui.hero.contactInfo}</h3>
+        <div
+          className="p-6 h-full flex flex-col justify-center relative"
+          style={{
+            background: '#fef9c3',
+            border: '2px solid #2d2013',
+            borderRadius: '12px 18px 16px 20px / 18px 12px 20px 16px',
+            boxShadow: '4px 4px 0 #2d2013',
+            transform: 'rotate(0.5deg)',
+          }}
+        >
+          {/* Tape at top */}
+          <div style={{
+            position: 'absolute',
+            top: -10,
+            left: '50%',
+            transform: 'translateX(-50%) rotate(-1deg)',
+            width: 55,
+            height: 18,
+            background: 'rgba(200,180,140,0.7)',
+            borderRadius: 3,
+            border: '1px solid #c4a882',
+          }} />
+
+          <h3
+            className="mb-6"
+            style={{
+              fontFamily: "'Caveat', cursive",
+              fontSize: '0.85rem',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '0.15em',
+              color: '#8a7560',
+            }}
+          >
+            {t.ui.hero.contactInfo}
+          </h3>
+
           <ul className="space-y-5">
-            <li className="flex items-start gap-4 group">
-              <div className="p-2.5 rounded-full bg-slate-100 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 group-hover:text-accent group-hover:border-accent/30 transition-colors">
-                <PhoneIcon className="w-5 h-5" />
-              </div>
-              <div>
-                <span className="block text-[10px] uppercase tracking-wider text-slate-500 font-semibold mb-0.5">{t.ui.hero.phone}</span>
-                <a href={`tel:${CONTACT_DATA.phone.replace(/\s/g, '')}`} className="text-sm text-slate-700 dark:text-slate-300 hover:text-accent dark:hover:text-white transition-colors">
-                  {CONTACT_DATA.phone}
-                </a>
-              </div>
-            </li>
-            <li className="flex items-start gap-4 group">
-              <div className="p-2.5 rounded-full bg-slate-100 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 group-hover:text-accent group-hover:border-accent/30 transition-colors">
-                <MailIcon className="w-5 h-5" />
-              </div>
-              <div>
-                <span className="block text-[10px] uppercase tracking-wider text-slate-500 font-semibold mb-0.5">{t.ui.hero.email}</span>
-                <a href={`mailto:${CONTACT_DATA.email}`} className="text-sm text-slate-700 dark:text-slate-300 hover:text-accent dark:hover:text-white transition-colors">
-                  {CONTACT_DATA.email}
-                </a>
-              </div>
-            </li>
-            <li className="flex items-start gap-4 group">
-              <div className="p-2.5 rounded-full bg-slate-100 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 group-hover:text-accent group-hover:border-accent/30 transition-colors">
-                <MapPinIcon className="w-5 h-5" />
-              </div>
-              <div>
-                <span className="block text-[10px] uppercase tracking-wider text-slate-500 font-semibold mb-0.5">{t.ui.hero.address}</span>
-                <span className="text-sm text-slate-700 dark:text-slate-300 block transition-colors">
-                  {CONTACT_DATA.address}
-                </span>
-              </div>
-            </li>
+            {[
+              { icon: <PhoneIcon className="w-5 h-5" />, label: t.ui.hero.phone, value: CONTACT_DATA.phone, href: `tel:${CONTACT_DATA.phone.replace(/\s/g, '')}`, color: '#4a90d9' },
+              { icon: <MailIcon className="w-5 h-5" />, label: t.ui.hero.email, value: CONTACT_DATA.email, href: `mailto:${CONTACT_DATA.email}`, color: '#3a8c4e' },
+              { icon: <MapPinIcon className="w-5 h-5" />, label: t.ui.hero.address, value: CONTACT_DATA.address, href: null, color: '#c4446e' },
+            ].map(({ icon, label, value, href, color }) => (
+              <li key={label} className="flex items-start gap-4 group">
+                <div
+                  className="p-2.5 transition-all duration-200"
+                  style={{
+                    border: `2px solid ${color}`,
+                    borderRadius: '8px 12px 10px 14px / 12px 8px 14px 10px',
+                    color,
+                    background: `${color}15`,
+                    boxShadow: `2px 2px 0 ${color}55`,
+                  }}
+                >
+                  {icon}
+                </div>
+                <div>
+                  <span
+                    className="block mb-0.5"
+                    style={{
+                      fontSize: '0.65rem',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.12em',
+                      color: '#8a7560',
+                      fontWeight: 700,
+                      fontFamily: "'Patrick Hand', cursive",
+                    }}
+                  >
+                    {label}
+                  </span>
+                  {href ? (
+                    <a
+                      href={href}
+                      style={{
+                        fontSize: '0.9rem',
+                        color: '#2d2013',
+                        fontFamily: "'Caveat', cursive",
+                        fontWeight: 600,
+                        textDecoration: 'none',
+                      }}
+                    >
+                      {value}
+                    </a>
+                  ) : (
+                    <span
+                      style={{
+                        fontSize: '0.9rem',
+                        color: '#2d2013',
+                        fontFamily: "'Caveat', cursive",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {value}
+                    </span>
+                  )}
+                </div>
+              </li>
+            ))}
           </ul>
+
+          {/* Bottom doodle decoration */}
+          <svg className="mt-6 w-full" height="14" viewBox="0 0 200 14" fill="none" style={{ opacity: 0.35 }}>
+            <path d="M0,7 Q25,2 50,7 Q75,12 100,7 Q125,2 150,7 Q175,12 200,7" stroke="#8a7560" strokeWidth="2" strokeLinecap="round" fill="none"/>
+          </svg>
         </div>
       </div>
     </section>
