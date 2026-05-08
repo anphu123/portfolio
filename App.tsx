@@ -174,7 +174,7 @@ const AppContent: React.FC = () => {
           </div>
         </nav>
 
-        <main className="space-y-10" style={{ animation: 'fadeInUp 0.7s ease-out forwards' }}>
+        <main className="space-y-10" style={{ animation: 'fadeIn 0.7s ease-out forwards' }}>
           <Hero />
           <Skills />
           <Experience />

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useTranslation, Translations } from '../i18n/index';
 import { XIcon } from './Icon';
 import { useInView } from '../hooks/useInView';
@@ -57,6 +58,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick, t, index, i
         transition: 'transform 0.2s ease, box-shadow 0.2s ease',
         position: 'relative',
         outline: 'none',
+        pointerEvents: 'auto',  // luôn clickable, không bị scroll-reveal che
       }}
       onMouseEnter={e => {
         (e.currentTarget as HTMLDivElement).style.transform = `rotate(${rotation * 0.3}deg) translate(-2px, -4px)`;
@@ -263,7 +265,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
     setTimeout(onClose, 250);
   };
 
-  return (
+  // Dùng Portal để thoát khỏi stacking context của transformed ancestors
+  return createPortal(
     <div
       className={`fixed inset-0 z-[9999] overflow-y-auto transition-all duration-250 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
     >
@@ -502,7 +505,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
