@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from '../i18n/index';
 import { CONTACT_DATA } from '../constants';
 import { MailIcon, MapPinIcon, PhoneIcon, DownloadIcon } from './Icon';
+import { useTilt } from '../hooks/useTilt';
 
 const DoodleHeart = () => (
   <svg style={{ display: 'inline-block', verticalAlign: 'middle', animation: 'wiggle 3s ease-in-out infinite' }} width="22" height="20" viewBox="0 0 24 22" fill="none">
@@ -18,16 +19,21 @@ const DoodleStar = ({ style }: { style?: React.CSSProperties }) => (
 export const Hero: React.FC = () => {
   const { t } = useTranslation();
   const { name, role, summary } = t.data;
-
   const handlePrint = () => window.print();
+  const mainCard = useTilt(7, 1.01);
+  const contactCard = useTilt(6, 1.01);
 
   return (
     <section className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-6">
-      {/* Main card */}
+      {/* Main card — 3D tilt */}
       <div
-        className="relative p-6 sm:p-8 overflow-hidden group transition-all duration-300 doodle-card"
+        ref={mainCard.ref}
+        onMouseMove={mainCard.handleMouseMove}
+        onMouseLeave={mainCard.handleMouseLeave}
+        className="card-3d relative p-6 sm:p-8 overflow-hidden group doodle-card"
         style={{ borderRadius: '18px 26px 22px 30px / 26px 18px 30px 22px' }}
       >
+        <div className="tilt-shine" style={{ borderRadius: 'inherit' }} />
         {/* Washi tape — Flutter Blue */}
         <div style={{
           position: 'absolute', top: -10, left: '35%',
@@ -99,7 +105,7 @@ export const Hero: React.FC = () => {
 
           {/* Avatar */}
           {CONTACT_DATA.avatarUrl && (
-            <div className="relative shrink-0 order-first md:order-last mb-4 md:mb-0 float-doodle-slow">
+            <div className="relative shrink-0 order-first md:order-last mb-4 md:mb-0 float-3d">
               <img
                 src={CONTACT_DATA.avatarUrl}
                 alt={name}
@@ -162,10 +168,13 @@ export const Hero: React.FC = () => {
         </div>
       </div>
 
-      {/* Contact card — light blue sticky note */}
+      {/* Contact card — 3D tilt */}
       <div className="flex flex-col gap-4">
         <div
-          className="p-6 h-full flex flex-col justify-center relative"
+          ref={contactCard.ref}
+          onMouseMove={contactCard.handleMouseMove}
+          onMouseLeave={contactCard.handleMouseLeave}
+          className="card-3d p-6 h-full flex flex-col justify-center relative"
           style={{
             background: '#E3F2FD',
             border: '2px solid #1a2744',
@@ -174,6 +183,7 @@ export const Hero: React.FC = () => {
             transform: 'rotate(0.5deg)',
           }}
         >
+          <div className="tilt-shine" style={{ borderRadius: 'inherit' }} />
           {/* Tape */}
           <div style={{
             position: 'absolute', top: -10, left: '50%',

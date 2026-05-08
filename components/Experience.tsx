@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from '../i18n/index';
 import { useInView } from '../hooks/useInView';
+import { useTilt } from '../hooks/useTilt';
 
 const TimelineConnector = () => (
   <div style={{ position: 'absolute', left: 22, top: 52, bottom: -24, width: 2, zIndex: 0 }}>
@@ -10,13 +11,116 @@ const TimelineConnector = () => (
   </div>
 );
 
+interface JobCardProps {
+  job: { role: string; company: string; period: string; description: string[] };
+  index: number;
+  isInView: boolean;
+  isLast: boolean;
+}
+
+const JobCard: React.FC<JobCardProps> = ({ job, index, isInView, isLast }) => {
+  const { ref, handleMouseMove, handleMouseLeave } = useTilt(7, 1.02);
+
+  return (
+    <div
+      className={`relative pl-14 scroll-reveal ${isInView ? 'visible' : ''}`}
+      style={{ transitionDelay: `${index * 0.18}s` }}
+    >
+      {/* Timeline node — spin in 3D */}
+      <div
+        className={isInView ? 'spin-in-3d' : ''}
+        style={{
+          position: 'absolute', left: 0, top: 24,
+          width: 44, height: 44,
+          background: index === 0 ? '#0175C2' : '#E3F2FD',
+          border: '2.5px solid #1a2744',
+          borderRadius: '40% 50% 45% 55% / 50% 40% 55% 45%',
+          boxShadow: index === 0
+            ? '3px 3px 0 #1a2744, 0 0 20px rgba(1,117,194,0.4)'
+            : '3px 3px 0 #1a2744',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          zIndex: 1,
+          fontFamily: "'Caveat', cursive",
+          fontSize: '1rem', fontWeight: 700,
+          color: index === 0 ? '#fff' : '#0175C2',
+          animationDelay: `${index * 0.2}s`,
+        }}
+      >
+        {index === 0 ? '★' : (index + 1)}
+      </div>
+
+      {!isLast && <TimelineConnector />}
+
+      {/* Job card with 3D tilt */}
+      <div
+        ref={ref}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        className="card-3d group p-6 sm:p-7"
+        style={{
+          background: index % 2 === 0 ? '#FFFFFF' : '#F0F9FF',
+          border: '2.5px solid #1a2744',
+          borderRadius: '14px 20px 18px 22px / 20px 14px 22px 18px',
+          boxShadow: '4px 4px 0 #1a2744',
+          position: 'relative',
+          overflow: 'hidden',
+        }}
+      >
+        {/* Shine overlay */}
+        <div className="tilt-shine" style={{ borderRadius: 'inherit' }} />
+
+        {/* Decorative corner accent */}
+        <div style={{
+          position: 'absolute', top: 0, right: 0, width: 60, height: 60,
+          background: `linear-gradient(135deg, transparent 50%, ${index % 2 === 0 ? 'rgba(1,117,194,0.07)' : 'rgba(0,180,171,0.07)'} 50%)`,
+          borderRadius: '0 20px 0 0',
+          pointerEvents: 'none',
+        }} />
+
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-5">
+          <div>
+            <h3 style={{ fontFamily: "'Caveat', cursive", fontWeight: 700, fontSize: '1.25rem', color: '#0175C2', marginBottom: 4 }}>
+              {job.role}
+            </h3>
+            <div style={{ fontFamily: "'Caveat', cursive", fontSize: '1rem', fontWeight: 600, color: '#00B4AB' }}>
+              @ {job.company}
+            </div>
+          </div>
+          <div style={{
+            fontFamily: "'Patrick Hand', cursive", fontSize: '0.78rem',
+            padding: '4px 12px',
+            background: '#E3F2FD', border: '1.5px solid #1a2744',
+            borderRadius: '6px 12px 8px 14px / 12px 6px 14px 8px',
+            boxShadow: '2px 2px 0 #1a2744',
+            color: '#1a2744', whiteSpace: 'nowrap', flexShrink: 0,
+          }}>
+            📅 {job.period}
+          </div>
+        </div>
+
+        <ul className="space-y-3">
+          {job.description.map((desc, idx) => (
+            <li key={idx} className="flex items-start gap-3">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0, marginTop: 3 }}>
+                <path d="M3,8 Q5,5 8,8 Q11,11 13,8" stroke="#0175C2" strokeWidth="2" fill="none" strokeLinecap="round"/>
+              </svg>
+              <span style={{ fontFamily: "'Patrick Hand', cursive", fontSize: '0.92rem', color: '#37474F', lineHeight: 1.6 }}>
+                {desc}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+};
+
 export const Experience: React.FC = () => {
   const { t } = useTranslation();
   const [ref, isInView] = useInView<HTMLElement>({ threshold: 0.1 });
 
   return (
     <section ref={ref}>
-      {/* Heading — Caveat 700 (Vietnamese-safe) */}
       <div className="flex items-center gap-4 mb-8">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
           <rect x="2" y="7" width="20" height="14" rx="3" stroke="#1a2744" strokeWidth="2" fill="none"/>
@@ -41,80 +145,13 @@ export const Experience: React.FC = () => {
 
       <div className="space-y-6 relative">
         {t.data.experience.map((job, index) => (
-          <div
+          <JobCard
             key={index}
-            className={`relative pl-14 scroll-reveal ${isInView ? 'visible' : ''}`}
-            style={{ transitionDelay: `${index * 0.15}s` }}
-          >
-            {/* Timeline node */}
-            <div style={{
-              position: 'absolute', left: 0, top: 24,
-              width: 44, height: 44,
-              background: index === 0 ? '#0175C2' : '#E3F2FD',
-              border: '2.5px solid #1a2744',
-              borderRadius: '40% 50% 45% 55% / 50% 40% 55% 45%',
-              boxShadow: '3px 3px 0 #1a2744',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              zIndex: 1,
-              fontFamily: "'Caveat', cursive",
-              fontSize: '1rem',
-              fontWeight: 700,
-              color: index === 0 ? '#fff' : '#0175C2',
-            }}>
-              {index === 0 ? '★' : (index + 1)}
-            </div>
-
-            {index < t.data.experience.length - 1 && <TimelineConnector />}
-
-            {/* Job card */}
-            <div
-              className="group p-6 sm:p-7 hover-lift transition-all duration-200"
-              style={{
-                background: index % 2 === 0 ? '#FFFFFF' : '#F0F9FF',
-                border: '2.5px solid #1a2744',
-                borderRadius: '14px 20px 18px 22px / 20px 14px 22px 18px',
-                boxShadow: '4px 4px 0 #1a2744',
-              }}
-            >
-              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-5">
-                <div>
-                  {/* Role — Caveat 700 (Vietnamese-safe) */}
-                  <h3 style={{ fontFamily: "'Caveat', cursive", fontWeight: 700, fontSize: '1.25rem', color: '#0175C2', marginBottom: 4 }}>
-                    {job.role}
-                  </h3>
-                  <div style={{ fontFamily: "'Caveat', cursive", fontSize: '1rem', fontWeight: 600, color: '#00B4AB' }}>
-                    @ {job.company}
-                  </div>
-                </div>
-
-                {/* Period badge */}
-                <div style={{
-                  fontFamily: "'Patrick Hand', cursive", fontSize: '0.78rem',
-                  padding: '4px 12px',
-                  background: '#E3F2FD',
-                  border: '1.5px solid #1a2744',
-                  borderRadius: '6px 12px 8px 14px / 12px 6px 14px 8px',
-                  boxShadow: '2px 2px 0 #1a2744',
-                  color: '#1a2744', whiteSpace: 'nowrap', flexShrink: 0,
-                }}>
-                  📅 {job.period}
-                </div>
-              </div>
-
-              <ul className="space-y-3">
-                {job.description.map((desc, idx) => (
-                  <li key={idx} className="flex items-start gap-3">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0, marginTop: 3 }}>
-                      <path d="M3,8 Q5,5 8,8 Q11,11 13,8" stroke="#0175C2" strokeWidth="2" fill="none" strokeLinecap="round"/>
-                    </svg>
-                    <span style={{ fontFamily: "'Patrick Hand', cursive", fontSize: '0.92rem', color: '#37474F', lineHeight: 1.6 }}>
-                      {desc}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
+            job={job}
+            index={index}
+            isInView={isInView}
+            isLast={index === t.data.experience.length - 1}
+          />
         ))}
       </div>
     </section>
