@@ -26,7 +26,7 @@ export const Experience: React.FC = () => {
         </svg>
         <h2
           style={{
-            fontFamily: "'Permanent Marker', cursive",
+            fontFamily: "'Pangolin', cursive",
             fontSize: '1.4rem',
             color: '#2d2013',
           }}
@@ -75,7 +75,7 @@ export const Experience: React.FC = () => {
               alignItems: 'center',
               justifyContent: 'center',
               zIndex: 1,
-              fontFamily: "'Permanent Marker', cursive",
+              fontFamily: "'Pangolin', cursive",
               fontSize: '1rem',
               color: index === 0 ? '#fff' : '#2d2013',
             }}>
@@ -99,7 +99,7 @@ export const Experience: React.FC = () => {
                 <div>
                   <h3
                     style={{
-                      fontFamily: "'Permanent Marker', cursive",
+                      fontFamily: "'Pangolin', cursive",
                       fontSize: '1.2rem',
                       color: '#e85d26',
                       marginBottom: 4,

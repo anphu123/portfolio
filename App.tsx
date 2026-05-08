@@ -98,7 +98,7 @@ const AppContent: React.FC = () => {
                   borderRadius: '40% 50% 45% 55% / 50% 40% 55% 45%',
                   boxShadow: '3px 3px 0 #2d2013',
                   color: '#fff',
-                  fontFamily: "'Permanent Marker', cursive",
+                  fontFamily: "'Pangolin', cursive",
                 }}
               >
                 A

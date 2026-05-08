@@ -18,7 +18,7 @@ export const Education: React.FC = () => {
         </svg>
         <h2
           style={{
-            fontFamily: "'Permanent Marker', cursive",
+            fontFamily: "'Pangolin', cursive",
             fontSize: '1.4rem',
             color: '#2d2013',
           }}
@@ -70,7 +70,7 @@ export const Education: React.FC = () => {
         <div className="flex-1">
           <h3
             style={{
-              fontFamily: "'Permanent Marker', cursive",
+              fontFamily: "'Pangolin', cursive",
               fontSize: '1.3rem',
               color: '#e85d26',
               marginBottom: 6,

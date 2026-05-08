@@ -25,7 +25,7 @@ export const Skills: React.FC = () => {
         </svg>
         <h2
           style={{
-            fontFamily: "'Permanent Marker', cursive",
+            fontFamily: "'Pangolin', cursive",
             fontSize: '1.4rem',
             color: '#2d2013',
             letterSpacing: '0.05em',

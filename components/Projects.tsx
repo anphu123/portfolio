@@ -85,7 +85,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick, t, index, i
         <div className="flex justify-between items-start gap-3 mb-2">
           <h3
             style={{
-              fontFamily: "'Permanent Marker', cursive",
+              fontFamily: "'Pangolin', cursive",
               fontSize: '1.05rem',
               color: '#2d2013',
               lineHeight: 1.3,
@@ -319,7 +319,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, t }) => {
             <div className="flex-1 min-w-0">
               <h2
                 style={{
-                  fontFamily: "'Permanent Marker', cursive",
+                  fontFamily: "'Pangolin', cursive",
                   fontSize: 'clamp(1.3rem, 4vw, 1.9rem)',
                   color: '#e85d26',
                   marginBottom: 8,
@@ -524,7 +524,7 @@ export const Projects: React.FC = () => {
         </svg>
         <h2
           style={{
-            fontFamily: "'Permanent Marker', cursive",
+            fontFamily: "'Pangolin', cursive",
             fontSize: '1.4rem',
             color: '#2d2013',
           }}

@@ -81,7 +81,7 @@ export const Hero: React.FC = () => {
             <h1
               className="mb-3 tracking-tight scribble-underline"
               style={{
-                fontFamily: "'Permanent Marker', cursive",
+                fontFamily: "'Pangolin', cursive",
                 fontSize: 'clamp(2rem, 5vw, 3.2rem)',
                 color: '#e85d26',
                 lineHeight: 1.1,
