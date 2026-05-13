@@ -7,5 +7,5 @@ export const CONTACT_DATA = {
   linkedin: "linkedin.com/in/an-phú-21b305272",
   resumeUrl: "https://drive.google.com/file/d/1pCyhzFJf_jS3lurOrI-rDyRsAM1I-9XB/view?usp=drive_link",
   // Ảnh local từ folder image/ — được serve qua publicDir của Vite
-  avatarUrl: "/portfolio/107667971_975485252875061_671335227385319786_n.jpg",
+  avatarUrl: "/107667971_975485252875061_671335227385319786_n.jpg",
 };
