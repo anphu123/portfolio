@@ -10,7 +10,7 @@ const EDU_COLORS = [
 ];
 
 interface EduCardProps {
-  edu: { school: string; degree: string; period: string; gpa?: string; note?: string };
+  edu: { school: string; major: string; period: string; gpa?: string; details?: string[] };
   index: number;
   isInView: boolean;
 }
@@ -73,7 +73,7 @@ const EduCard: React.FC<EduCardProps> = ({ edu, index, isInView }) => {
             {edu.school}
           </h3>
           <p style={{ fontFamily: "'Patrick Hand', cursive", fontSize: '0.92rem', color: '#37474F', marginBottom: 10 }}>
-            {edu.degree}
+            {edu.major}
           </p>
 
           <div className="flex flex-wrap gap-2 items-center">
@@ -96,14 +96,22 @@ const EduCard: React.FC<EduCardProps> = ({ edu, index, isInView }) => {
             )}
           </div>
 
-          {edu.note && (
-            <p className="mt-3 px-3 py-2" style={{
-              fontFamily: "'Patrick Hand', cursive", fontSize: '0.82rem', color: '#37474F',
+          {edu.details && edu.details.length > 0 && (
+            <div className="mt-3 px-3 py-2" style={{
               background: '#FFFFFF', border: '1.5px dashed #90CAF9',
-              borderRadius: '6px 10px 8px 12px', lineHeight: 1.6,
+              borderRadius: '6px 10px 8px 12px',
             }}>
-              💡 {edu.note}
-            </p>
+              <ul className="space-y-1">
+                {edu.details.map((detail, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <span style={{ color: palette.accent, flexShrink: 0, marginTop: 2 }}>💡</span>
+                    <span style={{ fontFamily: "'Patrick Hand', cursive", fontSize: '0.82rem', color: '#37474F', lineHeight: 1.5 }}>
+                      {detail}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
         </div>
       </div>
@@ -132,9 +140,7 @@ export const Education: React.FC = () => {
       </div>
 
       <div className="space-y-5">
-        {t.data.education.map((edu, index) => (
-          <EduCard key={index} edu={edu} index={index} isInView={isInView} />
-        ))}
+        <EduCard edu={t.data.education} index={0} isInView={isInView} />
       </div>
     </section>
   );
